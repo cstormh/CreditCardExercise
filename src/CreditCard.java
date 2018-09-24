@@ -16,39 +16,72 @@ class GameHelper {
     }
 }
 
+class validateCC {
+
+    private String card;
+
+    public void setCC (String input) {
+        card = input;
+    }
+
+    public String getCC () {
+        return card;
+    }
+
+    // check if user input is numbers
+    public void checkNumber () {
+
+        try {
+            long numCard = Long.parseLong(card);
+            System.out.println("Card number is: "+numCard);
+            System.out.println("User input for credit card is validated as a number");
+        }
+        catch (NumberFormatException e) {
+            System.out.println("Not a valid input, please only enter numbers.");
+        }
+    }
+
+    // check for special characters with replaceAll()
+    public void checkSpecial () {
+        String replaceAllInput = card.replaceAll("[^0-9]", "");
+        if (replaceAllInput != card) {
+            System.out.println("Not a valid input, there are special characters.");
+        }
+        else {
+            System.out.println("Credit card number is validated for no special characters");
+        }
+    }
+
+     // check for length
+     public void checkLength () {
+            long numCard = Long.parseLong(card);
+            long inputLength = String.valueOf(numCard).length();
+            System.out.println("Number length: "+inputLength);
+            if (inputLength < 14 || inputLength > 18) {
+                System.out.println("Not a valid input, credit card must have been 14 and 18 digits.");
+            }
+            else {
+                System.out.println("Credit card number length is validated.");
+            }
+        }
+
+
+}
+
 public class CreditCard {
     public static void main(String[]args){
 
         GameHelper helper = new GameHelper();
 
-        long numInput;
+        String input = helper.getUserInput("Enter credit card number");
 
-        // check input type, only allow integers
-        while (true) {
-            try {
-                String input = helper.getUserInput("Enter credit card number");
-                numInput = Long.parseLong(input);
-                System.out.println(numInput);
+        validateCC test = new validateCC();
 
-                // check for special characters
-                    String replaceAllInput = input.replaceAll("[^0-9]", "");
-                    if (replaceAllInput != input) {
-                        System.out.println("Not a valid input, there are special characters.");
-                    }
-                    else {
-                        // check length
-                        long inputLength = String.valueOf(numInput).length();
-                        System.out.println(inputLength);
-                        if (inputLength > 13 & inputLength < 19) {
-                            break;
-                        } else {
-                            System.out.println("Not a valid input, credit card must have been 14 and 18 digits.");
-                        }
-                    }
-            } catch (NumberFormatException e) {
-                System.out.println("Not a valid input, please only enter numbers.");
-            }
+        test.setCC(input);
+        test.getCC();
+        test.checkNumber();
+        test.checkSpecial();
+        test.checkLength();
         }
     }
-}
 
